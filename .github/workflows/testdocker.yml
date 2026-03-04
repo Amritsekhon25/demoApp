@@ -1,3 +1,27 @@
-- name: Test docker login
-  run: |
-    echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+name: Debug Docker Secrets
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Print Docker Username
+        run: |
+          echo "Docker Username: ${{ secrets.DOCKER_USERNAME }}"
+
+      - name: Print Docker Password Length
+        run: |
+          echo "Checking password length..."
+          echo "${{ secrets.DOCKER_PASSWORD }}" | wc -c
+
+      - name: Test Docker Login
+        run: |
+          echo "Testing Docker login..."
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
