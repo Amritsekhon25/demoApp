@@ -1,0 +1,24 @@
+name: Debug Docker Secrets
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Print Username
+        run: echo "Username=${{ secrets.DOCKER_USERNAME }}"
+
+      - name: Check if Password Exists
+        run: |
+          if [ -z "${{ secrets.DOCKER_PASSWORD }}" ]; then
+            echo "Password secret is EMPTY"
+          else
+            echo "Password secret exists"
+          fi
+
+      - name: Print Password Length
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | wc -c
